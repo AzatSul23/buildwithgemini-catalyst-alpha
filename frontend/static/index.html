@@ -376,6 +376,126 @@
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
   ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+  /* Hero & Instructions Section */
+  .hero-panel {
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+    border: 1.5px solid #a7f3d0;
+    border-radius: 16px;
+    padding: 1.25rem 1.4rem;
+    box-shadow: 0 4px 15px rgba(6, 78, 59, 0.05);
+    margin-bottom: 0.5rem;
+    animation: fadeIn 0.3s ease-out;
+  }
+  .hero-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+  .hero-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #064e3b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hero-badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: #d1fae5;
+    color: #047857;
+    padding: 2px 8px;
+    border-radius: 12px;
+    border: 1px solid #a7f3d0;
+  }
+  .capabilities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+  .cap-box {
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid #e2ece6;
+    border-radius: 10px;
+    padding: 0.6rem 0.8rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .cap-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+    margin-top: 1px;
+  }
+  .cap-content {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+  .cap-content strong {
+    color: #064e3b;
+    display: block;
+    font-size: 0.82rem;
+    margin-bottom: 2px;
+  }
+  .cap-content span {
+    color: var(--text-muted);
+  }
+  .examples-section {
+    border-top: 1px solid #e2ece6;
+    padding-top: 0.85rem;
+  }
+  .examples-label {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #047857;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .prompt-cards-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .prompt-pill-card {
+    background: #ffffff;
+    border: 1px solid #d1fae5;
+    border-radius: 10px;
+    padding: 0.55rem 0.85rem;
+    font-size: 0.82rem;
+    color: #0f172a;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .prompt-pill-card:hover {
+    background: #f0fdf4;
+    border-color: #34d399;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(5, 150, 105, 0.12);
+  }
+  .prompt-pill-card .pill-text {
+    flex: 1;
+  }
+  .prompt-pill-card .pill-tag {
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 6px;
+    background: #ecfdf5;
+    color: #059669;
+    border: 1px solid #a7f3d0;
+    white-space: nowrap;
+  }
 </style>
 </head>
 <body>
@@ -397,16 +517,84 @@
 
   <!-- Modern Chat Container -->
   <div class="chat-frame">
-    <!-- Quick Catalyst Prompts -->
+    <!-- Quick Catalyst Prompts Bar -->
     <div class="quick-bar">
-      <div class="quick-chip" onclick="sendPrompt('hi, what can you do?')">✨ What can you do?</div>
+      <div class="quick-chip" onclick="sendPrompt('What can you do?')">✨ Capabilities Overview</div>
       <div class="quick-chip" onclick="sendPrompt('What is the current stock price and news for NVDA?')">📊 Quote NVDA</div>
-      <div class="quick-chip" onclick="sendPrompt('Show me macro prediction market odds for interest rate cuts')">🎯 Macro Odds</div>
-      <div class="quick-chip" onclick="sendPrompt('Give me a funny trade thesis with a cartoon meme for TSLA')">🎨 Meme Thesis TSLA</div>
+      <div class="quick-chip" onclick="sendPrompt('Check Polymarket prediction odds for Fed rate cuts and compare with Treasury rates')">🎯 Macro & Fed Odds</div>
+      <div class="quick-chip" onclick="sendPrompt('I predict robotaxi commercialization in 5 US cities within 9 months. Propose non-obvious pick-and-shovel plays')">🤖 Robotaxi Second-Order</div>
+      <div class="quick-chip" onclick="sendPrompt('Show all existing investment theses saved in our Firestore database')">🗄️ Database Plays</div>
     </div>
 
-    <!-- Message History -->
-    <div id="log"></div>
+    <!-- Message History with Hero Capabilities & Examples -->
+    <div id="log">
+      <!-- Agent Capabilities & Prompt Guide Hero Card -->
+      <div class="hero-panel" id="heroPanel">
+        <div class="hero-header">
+          <div class="hero-title">
+            <span>⚡ What CatalystAlpha Can Do</span>
+          </div>
+          <span class="hero-badge">Gemini 3.8 Flash + Multi-Tool</span>
+        </div>
+
+        <!-- 4 Core Pillars of the Agent -->
+        <div class="capabilities-grid">
+          <div class="cap-box">
+            <span class="cap-icon">🎯</span>
+            <div class="cap-content">
+              <strong>Event-Driven Theses</strong>
+              <span>Predict future events & get high-conviction trade setups with target prices & stop-losses.</span>
+            </div>
+          </div>
+          <div class="cap-box">
+            <span class="cap-icon">🎲</span>
+            <div class="cap-content">
+              <strong>Polymarket & Macro</strong>
+              <span>Live crowd odds on Fed cuts, tech breakthroughs, geopolitics, and US Treasury curves.</span>
+            </div>
+          </div>
+          <div class="cap-box">
+            <span class="cap-icon">🏛️</span>
+            <div class="cap-content">
+              <strong>SEC EDGAR & Live Quotes</strong>
+              <span>Real-time quotes, 52-week ranges, and direct SEC Form 8-K material event filings.</span>
+            </div>
+          </div>
+          <div class="cap-box">
+            <span class="cap-icon">🧠</span>
+            <div class="cap-content">
+              <strong>Memory Bank & Firestore</strong>
+              <span>Remembers your risk preferences across sessions and stores active investment plays.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Clickable Example Prompts -->
+        <div class="examples-section">
+          <div class="examples-label">
+            <span class="material-symbols-outlined" style="font-size: 1rem;">touch_app</span> Click any example prompt below to run it:
+          </div>
+          <div class="prompt-cards-row">
+            <div class="prompt-pill-card" onclick="sendPrompt('I believe autonomous robotaxi commercialization will get approved in 5 major US cities within the next 9 months. What investment thesis can you propose for non-obvious plays beyond TSLA or UBER? Check market quotes, calculate risk/reward, and save the top play to our database.')">
+              <span class="pill-text">🚗 <strong>Non-Obvious Tech Catalyst:</strong> <em>"Robotaxi approval in 5 major US cities within 9 months — propose non-obvious plays beyond TSLA/UBER with risk/reward."</em></span>
+              <span class="pill-tag">Event Prediction</span>
+            </div>
+            <div class="prompt-pill-card" onclick="sendPrompt('Check Polymarket prediction odds for Federal Reserve interest rate cuts and cross-reference them with current US Treasury rates. Propose a rate-sensitive trade thesis.')">
+              <span class="pill-text">🏦 <strong>Macro & Polymarket:</strong> <em>"Check Polymarket rate cut odds, cross-reference US Treasury yields, and propose a rate-sensitive trade."</em></span>
+              <span class="pill-tag">Polymarket + Treasury</span>
+            </div>
+            <div class="prompt-pill-card" onclick="sendPrompt('Check recent SEC EDGAR filings and live market quotes for Apple (AAPL). Have there been any recent 8-K material events?')">
+              <span class="pill-text">📜 <strong>Regulatory & SEC EDGAR:</strong> <em>"Check recent SEC EDGAR 8-K filings and live market quotes for Apple (AAPL)."</em></span>
+              <span class="pill-tag">SEC EDGAR</span>
+            </div>
+            <div class="prompt-pill-card" onclick="sendPrompt('Taylor Swift retires from touring later this year and joins OpenAI as Chief Vibe Officer. Query Polymarket for related odds, deduce which music and streaming stocks are impacted, and build an investment thesis card.')">
+              <span class="pill-text">🎭 <strong>Creative Disruption:</strong> <em>"Taylor Swift joins OpenAI as Chief Vibe Officer — check Polymarket and deduce disrupted music/audio stocks."</em></span>
+              <span class="pill-tag">Second-Order Play</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Chat Input Form -->
     <form id="form">
